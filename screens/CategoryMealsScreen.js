@@ -1,5 +1,7 @@
 import React from "react";
+import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
+import DefaultText from "../components/DefaultText";
 import MealList from "../components/MealList";
 import { CATEGORIES } from "../data/dummy-data";
 
@@ -11,6 +13,14 @@ const CategoryMealsScreen = (props) => {
   const displayedMeals = availabelMeals.filter(
     (meal) => meal.categoryIds.indexOf(catId) >= 0
   );
+
+  if (displayedMeals.length === 0) {
+    return (
+      <View style={styles.content}>
+        <DefaultText>No meal to display! Maybe check your filters</DefaultText>
+      </View>
+    );
+  }
 
   // const selectedCategory = CATEGORIES.find((cat) => cat.id == catId);
   return <MealList listData={displayedMeals} navigation={props.navigation} />;
@@ -24,4 +34,11 @@ CategoryMealsScreen.navigationOptions = (navigationData) => {
   };
 };
 
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 export default CategoryMealsScreen;
